@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Babysitter</string>
+    <string name="ip_address_label">IP address:</string>
+    <string name="ip_address_txt_field">IP address (192.168.100.1)</string>
+    <string name="port_label">Port:</string>
+    <string name="port_txt_field">8000</string>
+    <string name="sample_rate_label">Sample rate:</string>
+    <string-array name="spinner_sample_rates">
+        <item>44100 (Default)</item>
+        <item>11025</item>
+        <item>12000</item>
+        <item>22050</item>
+        <item>24000</item>
+        <item>48000</item>
+    </string-array>
+    <string name="monoStereo_label">Mono/Stereo</string>
+    <string-array name="spinner_monoStereo">
+        <item>Stereo (Default)</item>
+        <item>Mono</item>
+    </string-array>
+    <string name="playButton">Play</string>
+    <string name="stopButton">Stop</string>
+</resources>
