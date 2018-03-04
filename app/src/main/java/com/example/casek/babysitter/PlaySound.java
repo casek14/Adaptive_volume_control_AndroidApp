@@ -74,6 +74,8 @@ public class PlaySound implements Runnable {
 
                     //write the data to the audioTrack for playback
                     int sizeWrite = audioTrack.write(audioBuffer, 0, sizeRead);
+                    // TODO print audioTrack.getMaxVolume
+                    Log.i("Music-Data",audioBuffer.toString());
                 }catch (Exception e){
                     Log.e("ERROR",e.getMessage());
                 }

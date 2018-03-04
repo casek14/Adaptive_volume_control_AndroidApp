@@ -20,4 +20,7 @@
     </string-array>
     <string name="playButton">Play</string>
     <string name="stopButton">Stop</string>
+
+    <string name="title_activity_start__fullscreen">WiFi-Sitter App</string>
+    <string name="image_description">App logo</string>
 </resources>
