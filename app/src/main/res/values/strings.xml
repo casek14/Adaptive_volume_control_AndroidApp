@@ -28,4 +28,9 @@
     <string name="title_activity_start__fullscreen">WiFi-Sitter App</string>
     <string name="image_description">App logo</string>
 
+    <string name="txtMenu">MENU</string>
+    <string name="btnMenuListen" >Listen baby</string>
+    <string name="btnMenuClientSettings" >Client settings</string>
+    <string name="btnMenuServerSettings" >Server settings</string>
+    <string name="btnMenuAbout" >About App</string>
 </resources>

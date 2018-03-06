@@ -21,24 +21,24 @@
 
         <TextView
             android:id="@+id/menuLabel"
-            android:textSize="30dp"
+            android:textSize="30sp"
             android:textStyle="bold"
 
             android:textAlignment="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="MENU" />
+            android:text="@string/txtMenu" />
 
         <FrameLayout
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:background="#000000">
+            android:background="@color/black_overlay">
 
         </FrameLayout>
 
         <LinearLayout
-            android:background="#e0e0e0"
+            android:background="@color/background_tint_color"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:text="Listen" />
+                android:text="@string/btnMenuListen" />
 
 
             <Button
@@ -62,7 +62,7 @@
                 android:background="@color/colorPrimary"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:text="Client settings"
+                android:text="@string/btnMenuClientSettings"
                 />
 
             <Button
@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:text="How to setup server" />
+                android:text="@string/btnMenuServerSettings" />
 
             <Button
                 android:id="@+id/btnAbout"
@@ -83,7 +83,7 @@
                 android:background="@color/colorPrimary"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:text="About" />
+                android:text="@string/btnMenuAbout" />
 
 
         </LinearLayout>
