@@ -1,4 +1,4 @@
-package com.example.casek.babysitter;
+package com.example.casek.babysitter.model;
 
 import android.media.AudioFormat;
 import android.media.AudioManager;

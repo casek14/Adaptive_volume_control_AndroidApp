@@ -1,4 +1,4 @@
-package com.example.casek.babysitter;
+package com.example.casek.babysitter.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -6,6 +6,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+
+import com.example.casek.babysitter.R;
+import com.example.casek.babysitter.model.PlaySound;
 
 public class SettingsActivity extends AppCompatActivity {
 

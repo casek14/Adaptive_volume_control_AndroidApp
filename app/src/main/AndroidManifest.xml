@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Start_FullscreenActivity"
+            android:name=".activities.Start_FullscreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_start__fullscreen"
             android:theme="@style/FullscreenTheme">
@@ -24,11 +24,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MenuActivity" />
-        <activity android:name=".AboutAppActivity" />
-        <activity android:name=".ServerSettingsActivity" />
-        <activity android:name=".ListenActivity"></activity>
-        <activity android:name=".SettingsActivity" />
+        <activity android:name=".activities.MenuActivity" />
+        <activity android:name=".activities.AboutAppActivity" />
+        <activity android:name=".activities.ServerSettingsActivity" />
+        <activity android:name=".activities.ListenActivity"></activity>
+        <activity android:name=".activities.SettingsActivity" />
     </application>
 
 </manifest>
