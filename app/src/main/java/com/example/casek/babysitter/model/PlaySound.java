@@ -7,6 +7,9 @@ import android.util.Log;
 
 import java.io.BufferedInputStream;
 import java.net.Socket;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.util.Arrays;
 
 /**
  * This class is connecting to the sound server
@@ -20,7 +23,7 @@ public class PlaySound implements Runnable {
     private String serverAddress;
     private int serverPort;
     private boolean playing = true;
-    private int sampleRate = 48000;
+    private int sampleRate = 44100;
 
     public PlaySound(String serverAddress, String serverPort) {
         this.serverAddress = serverAddress;
@@ -50,7 +53,7 @@ public class PlaySound implements Runnable {
 
             //get min buffer size for AudioTrack to be created in
             //stream mode
-            int lenght = AudioTrack.getMinBufferSize(sampleRate,
+            int length = AudioTrack.getMinBufferSize(sampleRate,
                     AudioFormat.CHANNEL_OUT_STEREO,
                     AudioFormat.ENCODING_PCM_16BIT);
 
@@ -59,23 +62,34 @@ public class PlaySound implements Runnable {
                     sampleRate,
                     AudioFormat.CHANNEL_OUT_STEREO,
                     AudioFormat.ENCODING_PCM_16BIT,
-                    lenght,
+                    length,
                     AudioTrack.MODE_STREAM);
             //start playing
             audioTrack.play();
+            audioTrack.setPlaybackPositionUpdateListener(new AudioTrack.OnPlaybackPositionUpdateListener() {
+                @Override
+                public void onMarkerReached(AudioTrack audioTrack) {
 
+                }
+
+                @Override
+                public void onPeriodicNotification(AudioTrack audioTrack) {
+                    Log.i("PERIODIC-UPDATE",audioTrack.getPlaybackHeadPosition()+"");
+                }
+            });
             //buffer array
-            byte[] audioBuffer = new byte[lenght * 8];
+            byte[] audioBuffer = new byte[length * 8];
 
             while (playing) {
                 try {
                     //read data
-                    int sizeRead = data.read(audioBuffer, 0, lenght * 8);
-
-                    //write the data to the audioTrack for playback
+                    int sizeRead = data.read(audioBuffer, 0, length * 8);
+      //write the data to the audioTrack for playback
                     int sizeWrite = audioTrack.write(audioBuffer, 0, sizeRead);
                     // TODO print audioTrack.getMaxVolume
-                    Log.i("Music-Data",audioBuffer.toString());
+                    Log.i("Music-Data", bytesToShort(audioBuffer)+"");
+
+                    //Log.i("Delka bufferu: ",audioBuffer.length+"");
                 }catch (Exception e){
                     Log.e("ERROR",e.getMessage());
                 }
@@ -102,5 +116,9 @@ public class PlaySound implements Runnable {
      */
     public void startPlaying(){
         playing = true;
+    }
+
+    public short bytesToShort(byte[] bytes) {
+        return ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).getShort();
     }
 }

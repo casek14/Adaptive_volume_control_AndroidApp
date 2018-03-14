@@ -1,6 +1,8 @@
 package com.example.casek.babysitter.activities;
 
+import android.Manifest;
 import android.content.Intent;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -29,11 +31,13 @@ public class MenuActivity extends AppCompatActivity {
         btnServerSetting = (Button) findViewById(R.id.btnServerSetting);
         btnAbout = (Button) findViewById(R.id.btnAbout);
 
+        ActivityCompat.requestPermissions(MenuActivity.this,new String[]{Manifest.permission.RECORD_AUDIO},
+                1);
 
         btnListen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO go to Listen Activity, where you can play sound over network
+                // go to Listen Activity, where you can play sound over network
                 Intent listenIntent = new Intent(MenuActivity.this, ListenActivity.class);
                 MenuActivity.this.startActivity(listenIntent);
             }
@@ -42,7 +46,7 @@ public class MenuActivity extends AppCompatActivity {
         btnClientSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO go to setting activty, where you can edit settings
+                // go to setting activty, where you can edit settings
                 Intent clientSettingsIntent = new Intent(MenuActivity.this,SettingsActivity.class);
                 MenuActivity.this.startActivity(clientSettingsIntent);
             }
@@ -51,7 +55,7 @@ public class MenuActivity extends AppCompatActivity {
         btnServerSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO go to activity, which shows you how to run sound server
+                // go to activity, which shows you how to run sound server
                 Intent serverSettingIntent = new Intent(MenuActivity.this, ServerSettingsActivity.class);
                 MenuActivity.this.startActivity(serverSettingIntent);
             }
@@ -61,7 +65,7 @@ public class MenuActivity extends AppCompatActivity {
         btnAbout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO go to activity about the app itself
+                //go to activity about the app itself
                 Intent aboutIntent = new Intent(MenuActivity.this, AboutAppActivity.class);
                 MenuActivity.this.startActivity(aboutIntent);
             }

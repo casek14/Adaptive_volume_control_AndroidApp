@@ -23,25 +23,21 @@
             android:id="@+id/menuLabel"
             android:textSize="30sp"
             android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
 
             android:textAlignment="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/txtMenu" />
 
-        <FrameLayout
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@color/black_overlay">
 
-        </FrameLayout>
 
         <LinearLayout
-            android:background="@color/background_tint_color"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+
+            >
 
             <Button
                 android:id="@+id/btnListen"
@@ -51,7 +47,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:text="@string/btnMenuListen" />
+                android:text="@string/btnMenuListen"
+                android:textColor="@color/white_frame"/>
 
 
             <Button
@@ -63,6 +60,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:text="@string/btnMenuClientSettings"
+                android:textColor="@color/white_frame"
                 />
 
             <Button
@@ -73,7 +71,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:text="@string/btnMenuServerSettings" />
+                android:text="@string/btnMenuServerSettings"
+                android:textColor="@color/white_frame"/>
 
             <Button
                 android:id="@+id/btnAbout"
@@ -83,7 +82,8 @@
                 android:background="@color/colorPrimary"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:text="@string/btnMenuAbout" />
+                android:text="@string/btnMenuAbout"
+                android:textColor="@color/white_frame"/>
 
 
         </LinearLayout>

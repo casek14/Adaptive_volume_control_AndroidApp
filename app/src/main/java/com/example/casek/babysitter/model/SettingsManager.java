@@ -28,7 +28,10 @@ public class SettingsManager {
     public String NOT_VALID_IP_PORT = "Port is not valid";
     public String SHARED_PREFERENCES_NAME = "app_settings";
     public String SETTINGS_UPDATE_OK = "Settings successfully updated";
-
+    public String SETTING_TYPE_IP_ADDRESS = "ipAddress";
+    public String SETTING_TYPE_PORT = "port";
+    public String SETTING_TYPE_RATE = "sampleRate";
+    public String SETTING_TYPE_MODE = "modeStereoMono";
 
     /**
      * This function manage settings, if no settigs present, will create them,
@@ -50,14 +53,14 @@ public class SettingsManager {
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         if(validateIpAddress(ipAddress)){
-            editor.putString("ip",ipAddress);
+            editor.putString(SETTING_TYPE_IP_ADDRESS,ipAddress);
             editor.commit();
         }else{
             return NOT_VALID_IP_ADDRESS;
         }
 
         if(validatePort(port)){
-            editor.putString("port",port);
+            editor.putString(SETTING_TYPE_PORT,port);
             editor.commit();
         }else{
             return NOT_VALID_IP_PORT;
@@ -75,40 +78,42 @@ public class SettingsManager {
      * read settigns from storage
      * @return
      */
-    private JSONObject readSettings(Context context){
+    public JSONObject readSettings(Context context){
 
         JSONObject jsonObject = null;
 
-        try {
-            InputStream inputStream = context.openFileInput(STORAGE_SETTINGS_NAME);
+        if(checkIfFileExists(context,STORAGE_SETTINGS_NAME)) {
+            try {
+                InputStream inputStream = context.openFileInput(STORAGE_SETTINGS_NAME);
 
-            if ( inputStream != null ) {
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                String receiveString = "";
-                StringBuilder stringBuilder = new StringBuilder();
+                if (inputStream != null) {
+                    InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                    BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                    String receiveString = "";
+                    StringBuilder stringBuilder = new StringBuilder();
 
-                while ( (receiveString = bufferedReader.readLine()) != null ) {
-                    stringBuilder.append(receiveString);
+                    while ((receiveString = bufferedReader.readLine()) != null) {
+                        stringBuilder.append(receiveString);
+                    }
+
+                    inputStream.close();
+                    JSONTokener jsonTokener = new JSONTokener(stringBuilder.toString());
+                    jsonObject = new JSONObject(jsonTokener);
+
+
+
                 }
-
-                inputStream.close();
-                JSONTokener jsonTokener = new JSONTokener(stringBuilder.toString());
-                jsonObject = new JSONObject(jsonTokener);
+            } catch (FileNotFoundException e) {
+                Log.e("ERROR", "File not found: " + e.toString());
+            } catch (JSONException eJson) {
+                Log.e("ERROR", "Json error: " + eJson.toString());
+            } catch (IOException e) {
+                Log.e("ERROR", "Can not read file: " + e.toString());
             }
+        }else {
+            Log.println(Log.DEBUG, "RETURN", "File does not exists");
         }
-        catch (FileNotFoundException e ) {
-            Log.e("ERROR", "File not found: " + e.toString());
-        }
-        catch(JSONException eJson){
-            Log.e("ERROR", "Json error: " + eJson.toString());
-        }
-        catch (IOException e) {
-            Log.e("ERROR", "Can not read file: " + e.toString());
-        }
-
-
-        return new JSONObject();
+        return jsonObject;
     }
 
 
@@ -153,10 +158,10 @@ public class SettingsManager {
         JSONObject jsonObject = new JSONObject();
 
         try {
-            jsonObject.put("ipAddress",ipAddress);
-            jsonObject.put("port", port);
-            jsonObject.put("sampleRate",sampleRate);
-            jsonObject.put("monoStereoMode", mode);
+            jsonObject.put(SETTING_TYPE_IP_ADDRESS,ipAddress);
+            jsonObject.put(SETTING_TYPE_PORT, port);
+            jsonObject.put(SETTING_TYPE_RATE,sampleRate);
+            jsonObject.put(SETTING_TYPE_MODE, mode);
             Log.i("JSONFILE",jsonObject.toString());
         }catch (JSONException e){
             Log.e("ERROR CREATING JSON",e.toString());
@@ -181,7 +186,14 @@ public class SettingsManager {
      * @return
      */
     private Boolean validatePort(String port){
-        int p = Integer.getInteger(port);
+        int p = -1;
+        try {
+            p = Integer.parseInt(port);
+        }
+        catch(NumberFormatException e){
+            e.printStackTrace();
+            return false;
+        }
         if( p >= 0 && p <= 65535){
             return true;
         }
@@ -197,11 +209,12 @@ public class SettingsManager {
     private Boolean validateIpAddress(String ip){
 
         String[] octet = ip.split("\\.");
+
         if (octet.length == 4 &&
-            Integer.getInteger(octet[0] ) >=1 && Integer.getInteger(octet[0] ) <= 254 &&
-            Integer.getInteger(octet[1] ) >=0 && Integer.getInteger(octet[1] ) <= 255 &&
-            Integer.getInteger(octet[2] ) >=0 && Integer.getInteger(octet[2] ) <= 255 &&
-            Integer.getInteger(octet[3] ) >=0 && Integer.getInteger(octet[3] ) <= 255){
+            Integer.parseInt(octet[0] ) >=1 && Integer.parseInt(octet[0] ) <= 254 &&
+            Integer.parseInt(octet[1] ) >=0 && Integer.parseInt(octet[1] ) <= 255 &&
+            Integer.parseInt(octet[2] ) >=0 && Integer.parseInt(octet[2] ) <= 255 &&
+            Integer.parseInt(octet[3] ) >=0 && Integer.parseInt(octet[3] ) <= 255){
 
             return true;
         }
