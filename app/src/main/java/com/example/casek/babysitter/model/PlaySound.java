@@ -66,30 +66,20 @@ public class PlaySound implements Runnable {
                     AudioTrack.MODE_STREAM);
             //start playing
             audioTrack.play();
-            audioTrack.setPlaybackPositionUpdateListener(new AudioTrack.OnPlaybackPositionUpdateListener() {
-                @Override
-                public void onMarkerReached(AudioTrack audioTrack) {
 
-                }
-
-                @Override
-                public void onPeriodicNotification(AudioTrack audioTrack) {
-                    Log.i("PERIODIC-UPDATE",audioTrack.getPlaybackHeadPosition()+"");
-                }
-            });
             //buffer array
             byte[] audioBuffer = new byte[length * 8];
-
+            double value;
             while (playing) {
                 try {
                     //read data
                     int sizeRead = data.read(audioBuffer, 0, length * 8);
       //write the data to the audioTrack for playback
                     int sizeWrite = audioTrack.write(audioBuffer, 0, sizeRead);
-                    // TODO print audioTrack.getMaxVolume
-                    Log.i("Music-Data", bytesToShort(audioBuffer)+"");
-
-                    //Log.i("Delka bufferu: ",audioBuffer.length+"");
+                   
+                    value = bytesToShort(audioBuffer);
+                    double db = 20*Math.log10((0.000002+((0.6325-0.00002)/32767.0)*Math.abs(value))/0.00002);
+                    Log.i(value+" VALUE OF dB = ",db+"");
                 }catch (Exception e){
                     Log.e("ERROR",e.getMessage());
                 }
