@@ -23,6 +23,7 @@
         <item>Mono</item>
     </string-array>
     <string name="playButton">Play</string>
+    <string name="playButtonActive">Playing</string>
     <string name="stopButton">Stop</string>
 
     <string name="title_activity_start__fullscreen">WiFi-Sitter App</string>
@@ -35,4 +36,8 @@
     <string name="btnMenuAbout" >About App</string>
     <string name="btnLoadSettings">Load settings</string>
     <string name="btnSaveSettings">Save settings</string>
+
+    <string name="txtListenVolume" >Mobile volume:</string>
+    <string name="txtListenSourceVolume">Source loudness:</string>
+
 </resources>

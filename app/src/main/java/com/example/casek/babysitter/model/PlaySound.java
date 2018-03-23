@@ -38,7 +38,7 @@ public class PlaySound implements Runnable {
         try {
             // try to create socket, if fails throw error
             socket = new Socket(serverAddress,serverPort);
-        }catch (Exception e){
+        }catch (Exception e) {
             Log.e("ERROR",e.getMessage());
         }
 
@@ -76,7 +76,7 @@ public class PlaySound implements Runnable {
                     int sizeRead = data.read(audioBuffer, 0, length * 8);
       //write the data to the audioTrack for playback
                     int sizeWrite = audioTrack.write(audioBuffer, 0, sizeRead);
-                   
+
                     value = bytesToShort(audioBuffer);
                     double db = 20*Math.log10((0.000002+((0.6325-0.00002)/32767.0)*Math.abs(value))/0.00002);
                     Log.i(value+" VALUE OF dB = ",db+"");

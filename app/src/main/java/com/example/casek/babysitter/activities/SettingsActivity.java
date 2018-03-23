@@ -17,8 +17,7 @@ import org.json.JSONObject;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    private boolean isPlaying = false;
-    PlaySound playSound = null;
+
     private SettingsManager settingsManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +48,6 @@ public class SettingsActivity extends AppCompatActivity {
             txtPort.setText(port);
         }
 
-        // TODO move this to play activity
-        final Button btnPlay = (Button) findViewById(R.id.btnPlay);
 
         btnLoadSettings.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,28 +85,6 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        btnPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                if(playSound == null) {
-                    playSound = new PlaySound(txtIpAddress.getText().toString(),
-                            txtPort.getText().toString());
-                }
-
-                if(isPlaying == false){
-                    btnPlay.setText(R.string.stopButton);
-
-                    new Thread(playSound).start();
-                    isPlaying = true;
-                }else{
-                    btnPlay.setText(R.string.playButton);
-                    playSound.stopSound();
-                    isPlaying = false;
-                    playSound = null;
-                }
-
-            }
-        });
     }
 }

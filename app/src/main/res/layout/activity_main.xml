@@ -118,27 +118,31 @@
 
             </Spinner>
         </LinearLayout>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/playButton"
-            android:background="@color/colorAccent"
-            android:drawableRight="@mipmap/ic_launcher_round"
-            android:id="@+id/btnPlay"
-            />
+
 
         <Button
             android:id="@+id/btnLoadSettings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/btnLoadSettings"
+            android:textColor="@color/white_frame"
+            android:background="@color/colorPrimary"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             />
 
         <Button
             android:id="@+id/btnSave"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/btnSaveSettings" />
+            android:text="@string/btnSaveSettings"
+            android:textColor="@color/white_frame"
+            android:background="@color/colorPrimary"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            />
 
     </LinearLayout>
 

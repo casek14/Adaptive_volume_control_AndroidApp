@@ -1,146 +1,144 @@
 package com.example.casek.babysitter.activities;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.casek.babysitter.R;
+import com.example.casek.babysitter.model.PlaySound;
+import com.example.casek.babysitter.model.SettingsManager;
 
 import android.media.MediaRecorder;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ListenActivity extends AppCompatActivity {
-    TextView mStatusView;
-    MediaRecorder mRecorder;
-    Thread runner;
-    private static double mEMA = 0.0;
-    static final private double EMA_FILTER = 0.6;
 
-    final Runnable updater = new Runnable(){
 
-        public void run(){
-         //   updateTv();
-        };
-    };
-
-    final Handler mHandler = new Handler();
+    private TextView txtPhoneVolume;
+    private ProgressBar prgbPhoneVolume;
+    private TextView txtSourceLoudness;
+    private Button btnPlay;
+    private Button btnStop;
+    PlaySound playSound = null;
+    private String ipAddress;
+    private String port;
+    private boolean isPlaying = false;
+    private SettingsManager settingsManager = new SettingsManager();
+    private Thread thread;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listen);
-        mStatusView = (TextView) findViewById(R.id.status);
 
+        txtPhoneVolume = (TextView) findViewById(R.id.txtListenVolumeValue);
+        prgbPhoneVolume = (ProgressBar) findViewById(R.id.progressBarVolume);
+        txtSourceLoudness = (TextView) findViewById(R.id.txtLoudnessOfSourceValue);
+        btnPlay = (Button) findViewById(R.id.btnPlaySound);
+        btnStop = (Button) findViewById(R.id.btnStopSound);
 
-        if (runner == null)
-        {
-            runner = new Thread(){
-                public void run()
-                {
-                    while (runner != null)
-                    {
-                        try
-                        {
-                            Thread.sleep(50);
-                            updateTv();
+        btnPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-                        } catch (InterruptedException e) { };
-                        mHandler.post(updater);
+                String settingsResult = checkSettings();
+
+                if(settingsResult.equals("ok")){
+                    int duration = Toast.LENGTH_LONG;
+                    Toast toast = Toast.makeText(getApplicationContext(),
+                            "Playing sound from "+ipAddress+":"+port,
+                            duration);
+                    toast.show();
+
+                    if(playSound == null) {
+                        playSound = new PlaySound(ipAddress, port);
                     }
+
+                    thread = new Thread(playSound);
+
+                    if(isPlaying == false){
+                        btnPlay.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                        btnPlay.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                        btnPlay.setText(getResources().getText(R.string.playButtonActive));
+
+                       // new Thread(playSound).start();
+                        thread.start();
+                        isPlaying = true;
+                    }
+
+
+
+
+                }else{
+                    int duration = Toast.LENGTH_LONG;
+                    Toast toast = Toast.makeText(getApplicationContext(),
+                            "No settings provided, go to settings !",
+                            duration);
+                    toast.show();
                 }
-            };
-            runner.start();
-            Log.d("Noise", "start runner()");
-        }
-    }
 
-    public void onResume()
-    {
-        super.onResume();
-        startRecorder();
-    }
 
-    public void onPause()
-    {
-        super.onPause();
-        stopRecorder();
-    }
 
-    public void startRecorder(){
-        if (mRecorder == null)
-        {
 
-            mRecorder = new MediaRecorder();
-            mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-            mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-            mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-            mRecorder.setOutputFile("/dev/null");
-            try
-            {
-                mRecorder.prepare();
-            }catch (java.io.IOException ioe) {
-                android.util.Log.e("[Monkey]", "IOException: " +
-                        android.util.Log.getStackTraceString(ioe));
 
-            }catch (java.lang.SecurityException e) {
-                android.util.Log.e("[Monkey]", "SecurityException: " +
-                        android.util.Log.getStackTraceString(e));
+
+
+
             }
-            try
-            {
-                mRecorder.start();
-            }catch (java.lang.SecurityException e) {
-                android.util.Log.e("[Monkey]", "SecurityException: " +
-                        android.util.Log.getStackTraceString(e));
+        });
+
+
+        btnStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(thread != null){
+                    thread.interrupt();
+                }
+                playSound.stopSound();
+                isPlaying = false;
+                playSound = null;
+
+                btnPlay.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                btnPlay.setTextColor(getResources().getColor(R.color.white_frame));
+                btnPlay.setText(getResources().getString(R.string.playButton));
+
+
             }
+        });
 
-            //mEMA = 0.0;
+    }
+
+
+
+
+    private String checkSettings(){
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(
+                "app_settings", Context.MODE_PRIVATE);
+
+        try {
+
+
+            ipAddress = sharedPreferences.getString(settingsManager.SETTING_TYPE_IP_ADDRESS, null);
+            port = sharedPreferences.getString(settingsManager.SETTING_TYPE_PORT, null);
+        }
+        catch(NullPointerException e){
+            e.printStackTrace();
+            return "error";
+        }
+        if (ipAddress == null || port == null){
+            return "error";
         }
 
-    }
-
-
-
-    public void stopRecorder() {
-        if (mRecorder != null) {
-            mRecorder.stop();
-            mRecorder.release();
-            mRecorder = null;
-        }
-    }
-
-    public void updateTv(){
-        mStatusView.setText(Double.toString((getAmplitudeEMA())) + " dB");
-        Log.i("VALUE IS:",Double.toString((getAmplitudeEMA())) + " dB");
-       // Log.i("VALUE IS:",Double.toString((soundDb(getAmplitude()))) + " dB");
-
-    }
-    public double soundDb(double ampl){
-        return  20 * Math.log10(getAmplitudeEMA() / ampl);
-    }
-    public double getAmplitude() {
-        if (mRecorder != null) {
-            return (mRecorder.getMaxAmplitude());
-
-        }
-            else
-            return 0;
-
-    }
-    public double getAmplitudeEMA() {
-        double amp =  getAmplitude();
-        mEMA = EMA_FILTER * amp + (1.0 - EMA_FILTER) * mEMA;
-        return mEMA;
-    }
-
-    private boolean checkWriteExternalPermission()
-    {
-        String permission = Manifest.permission.RECORD_AUDIO;
-        int res = getApplicationContext().checkCallingOrSelfPermission(permission);
-        return (res == PackageManager.PERMISSION_GRANTED);
+        return "ok";
     }
 
 }
