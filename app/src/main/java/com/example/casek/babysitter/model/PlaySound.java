@@ -1,9 +1,16 @@
 package com.example.casek.babysitter.model;
 
+import android.app.Activity;
+import android.content.Context;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
 import android.util.Log;
+import android.widget.TextView;
+
+import com.example.casek.babysitter.R;
+
+import org.w3c.dom.Text;
 
 import java.io.BufferedInputStream;
 import java.net.Socket;
@@ -24,10 +31,13 @@ public class PlaySound implements Runnable {
     private int serverPort;
     private boolean playing = true;
     private int sampleRate = 44100;
+    private Context context;
+    TextView txtdB;
 
-    public PlaySound(String serverAddress, String serverPort) {
+    public PlaySound(String serverAddress, String serverPort, TextView txt) {
         this.serverAddress = serverAddress;
         this.serverPort = Integer.parseInt(serverPort);
+        txtdB = txt;
     }
 
     @Override
@@ -79,7 +89,8 @@ public class PlaySound implements Runnable {
 
                     value = bytesToShort(audioBuffer);
                     double db = 20*Math.log10((0.000002+((0.6325-0.00002)/32767.0)*Math.abs(value))/0.00002);
-                    Log.i(value+" VALUE OF dB = ",db+"");
+
+                    txtdB.setText((int) db+" dB");
                 }catch (Exception e){
                     Log.e("ERROR",e.getMessage());
                 }

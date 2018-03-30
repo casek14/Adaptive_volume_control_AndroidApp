@@ -1,5 +1,6 @@
 package com.example.casek.babysitter.activities;
 
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -23,6 +24,8 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         settingsManager = new SettingsManager();
         final JSONObject settingJSON = settingsManager.readSettings(this.getApplicationContext());
         final EditText txtIpAddress = (EditText) findViewById(R.id.txtIpAddress);

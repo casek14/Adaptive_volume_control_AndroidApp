@@ -2,6 +2,7 @@ package com.example.casek.babysitter.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import com.example.casek.babysitter.R;
  * status bar and navigation/system bar) with user interaction.
  */
 public class Start_FullscreenActivity extends AppCompatActivity {
+
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -91,7 +93,7 @@ public class Start_FullscreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_start__fullscreen);
-
+        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         mVisible = true;
 
 

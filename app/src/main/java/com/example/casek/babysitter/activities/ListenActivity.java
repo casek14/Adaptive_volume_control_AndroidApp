@@ -3,6 +3,7 @@ package com.example.casek.babysitter.activities;
 import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -39,6 +40,7 @@ public class ListenActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listen);
+        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         txtPhoneVolume = (TextView) findViewById(R.id.txtListenVolumeValue);
         prgbPhoneVolume = (ProgressBar) findViewById(R.id.progressBarVolume);
@@ -60,7 +62,7 @@ public class ListenActivity extends AppCompatActivity {
                     toast.show();
 
                     if(playSound == null) {
-                        playSound = new PlaySound(ipAddress, port);
+                        playSound = new PlaySound(ipAddress, port,txtSourceLoudness);
                     }
 
                     thread = new Thread(playSound);
@@ -110,6 +112,7 @@ public class ListenActivity extends AppCompatActivity {
                 btnPlay.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                 btnPlay.setTextColor(getResources().getColor(R.color.white_frame));
                 btnPlay.setText(getResources().getString(R.string.playButton));
+                txtSourceLoudness.setText("- dB");
 
 
             }
