@@ -5,6 +5,7 @@ import android.content.Context;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
+import android.media.MediaPlayer;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -34,10 +35,11 @@ public class PlaySound implements Runnable {
     private Context context;
     TextView txtdB;
 
-    public PlaySound(String serverAddress, String serverPort, TextView txt) {
+    public PlaySound(String serverAddress, String serverPort, TextView txt, Context context) {
         this.serverAddress = serverAddress;
         this.serverPort = Integer.parseInt(serverPort);
         txtdB = txt;
+        this.context = context;
     }
 
     @Override

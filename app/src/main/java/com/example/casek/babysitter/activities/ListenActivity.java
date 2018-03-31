@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.media.AudioManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -51,7 +52,9 @@ public class ListenActivity extends AppCompatActivity {
         btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                AudioManager m = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
+                Log.i("Phone volume is ",""+m.getStreamVolume(AudioManager.STREAM_MUSIC));
+                Log.i("Max volume is ",""+m.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
                 String settingsResult = checkSettings();
 
                 if(settingsResult.equals("ok")){
@@ -62,7 +65,7 @@ public class ListenActivity extends AppCompatActivity {
                     toast.show();
 
                     if(playSound == null) {
-                        playSound = new PlaySound(ipAddress, port,txtSourceLoudness);
+                        playSound = new PlaySound(ipAddress, port,txtSourceLoudness,getApplicationContext());
                     }
 
                     thread = new Thread(playSound);
