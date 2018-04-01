@@ -53,8 +53,8 @@ public class ListenActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 AudioManager m = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
-                Log.i("Phone volume is ",""+m.getStreamVolume(AudioManager.STREAM_MUSIC));
-                Log.i("Max volume is ",""+m.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
+               // Log.i("Phone volume is ",""+m.getStreamVolume(AudioManager.STREAM_MUSIC));
+               // Log.i("Max volume is ",""+m.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
                 String settingsResult = checkSettings();
 
                 if(settingsResult.equals("ok")){
@@ -65,7 +65,8 @@ public class ListenActivity extends AppCompatActivity {
                     toast.show();
 
                     if(playSound == null) {
-                        playSound = new PlaySound(ipAddress, port,txtSourceLoudness,getApplicationContext());
+                        playSound = new PlaySound(ipAddress, port,txtSourceLoudness,
+                                getApplicationContext(),prgbPhoneVolume,txtPhoneVolume);
                     }
 
                     thread = new Thread(playSound);
@@ -105,19 +106,20 @@ public class ListenActivity extends AppCompatActivity {
         btnStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(thread != null){
-                    thread.interrupt();
-                }
-                playSound.stopSound();
-                isPlaying = false;
-                playSound = null;
+           if(isPlaying) {
+               if (thread != null) {
+                   thread.interrupt();
+               }
+               playSound.stopSound();
+               isPlaying = false;
+               playSound = null;
 
-                btnPlay.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                btnPlay.setTextColor(getResources().getColor(R.color.white_frame));
-                btnPlay.setText(getResources().getString(R.string.playButton));
+               btnPlay.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+               btnPlay.setTextColor(getResources().getColor(R.color.white_frame));
+               btnPlay.setText(getResources().getString(R.string.playButton));
+
+           }
                 txtSourceLoudness.setText("- dB");
-
-
             }
         });
 

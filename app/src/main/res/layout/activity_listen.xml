@@ -48,7 +48,9 @@
             android:progress="50"
             android:progressBackgroundTint="@color/colorPrimaryDark"
             android:progressTint="@color/colorPrimary"
-            android:scaleY="3" />
+            android:scaleY="3"
+            android:max="100"
+            android:min="0"/>
 
         <TextView
             android:id="@+id/txtLoudnessOfSource"

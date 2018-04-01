@@ -7,6 +7,7 @@ import android.media.AudioManager;
 import android.media.AudioTrack;
 import android.media.MediaPlayer;
 import android.util.Log;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.casek.babysitter.R;
@@ -34,12 +35,17 @@ public class PlaySound implements Runnable {
     private int sampleRate = 44100;
     private Context context;
     TextView txtdB;
+    private SoundManager soundManager;
 
-    public PlaySound(String serverAddress, String serverPort, TextView txt, Context context) {
+    public PlaySound(String serverAddress, String serverPort,
+                     TextView txtSourceLoudness, Context context, ProgressBar progressBar,
+                     TextView txtPhoneVolume) {
         this.serverAddress = serverAddress;
         this.serverPort = Integer.parseInt(serverPort);
-        txtdB = txt;
+        txtdB = txtSourceLoudness;
         this.context = context;
+        soundManager = new SoundManager(progressBar,txtPhoneVolume,
+                txtSourceLoudness,this.context);
     }
 
     @Override
@@ -91,8 +97,8 @@ public class PlaySound implements Runnable {
 
                     value = bytesToShort(audioBuffer);
                     double db = 20*Math.log10((0.000002+((0.6325-0.00002)/32767.0)*Math.abs(value))/0.00002);
-
-                    txtdB.setText((int) db+" dB");
+                    soundManager.adjustPhoneVolume(db);
+                   // txtdB.setText((int) db+" dB");
                 }catch (Exception e){
                     Log.e("ERROR",e.getMessage());
                 }

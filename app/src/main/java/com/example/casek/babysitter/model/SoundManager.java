@@ -24,7 +24,7 @@ public class SoundManager {
     public int largeSoundLevel = 70;
     Context context;
     AudioManager audioManager;
-
+    private int index;
 
     public SoundManager(ProgressBar prgBarPhoneVolume,
                         TextView txtPhoneVolume,
@@ -35,18 +35,30 @@ public class SoundManager {
         this.txtLoudness = txtLoudness;
         this.context = context;
         audioManager = (AudioManager) this.context.getSystemService(Context.AUDIO_SERVICE);
+        volumeSet = new int[5];
+        index = 0;
     }
 
     /**
      * Function update phone volume progress bar,
      * phone volume text view and source volume
      */
-    private void updateUI(){
-
+    private void updateUI(int phoneVolume, int sourceLoudness){
+        prgBarPhoneVolume.setProgress(phoneVolume);
+        txtPhoneVolume.setText(phoneVolume+"%");
+        txtLoudness.setText(sourceLoudness+" dB");
     }
 
+    /**
+     *
+     * @param votage
+     */
     public void adjustPhoneVolume(double votage){
 
+        int decibel = computeDecibel(votage);
+        int madb = computeMovingAverage(decibel);
+        int phoneVolume = setPhoneVolume(madb);
+        updateUI(phoneVolume,madb);
     }
 
 
@@ -68,23 +80,29 @@ public class SoundManager {
      * This function will set volume of the phone based on the given parameter
      * @param sourceLoudnes
      */
-    private void setPhoneVolume(int sourceLoudnes){
+    private int setPhoneVolume(int sourceLoudnes){
         // min volume is 0 and max volume is 15
         int index = 5;
+        int percentage = 50;
         if(sourceLoudnes <= 30){
             // sound of source is very low raise the volume to 95%
             index = returnVolumeLevel(95);
+            percentage = 95;
         }else if (sourceLoudnes > 30 && sourceLoudnes <= 55){
             // sound source is medium set volume to 65%
             index = returnVolumeLevel(65);
+            percentage = 65;
         }else if (sourceLoudnes > 55 && sourceLoudnes <= 70){
             // sound source is big set volume to 40%
             index = returnVolumeLevel(40);
+            percentage = 40;
         }else if (sourceLoudnes > 70){
             // sound source is very big set volume to 10%
             index = returnVolumeLevel(10);
+            percentage = 10;
         }
         audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,index,0);
+        return percentage;
     }
 
     /**
@@ -99,5 +117,26 @@ public class SoundManager {
         int maxLevel = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
         int level = Math.round(maxLevel * percentage);
         return level;
+    }
+
+    /**
+     * Function computes moving average (klouzavy prumer) of last
+     * five values
+     * @param decibel
+     * @return
+     */
+    private int computeMovingAverage(int decibel){
+        int sum = 0;
+        volumeSet[index] = decibel;
+        for (int d : volumeSet){
+            sum += d;
+        }
+
+        int ma = sum/5;
+        index ++;
+        if(index > 4){
+            index = 0;
+        }
+        return ma;
     }
 }
