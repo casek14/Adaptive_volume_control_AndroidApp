@@ -13,6 +13,7 @@ import android.os.Bundle;
 import com.example.casek.babysitter.R;
 import com.example.casek.babysitter.model.PlaySound;
 import com.example.casek.babysitter.model.SettingsManager;
+import com.jjoe64.graphview.GraphView;
 
 import android.media.MediaRecorder;
 import android.os.Handler;
@@ -31,6 +32,7 @@ public class ListenActivity extends AppCompatActivity {
     private TextView txtSourceLoudness;
     private Button btnPlay;
     private Button btnStop;
+    private GraphView graph;
     PlaySound playSound = null;
     private String ipAddress;
     private String port;
@@ -48,10 +50,17 @@ public class ListenActivity extends AppCompatActivity {
         txtSourceLoudness = (TextView) findViewById(R.id.txtLoudnessOfSourceValue);
         btnPlay = (Button) findViewById(R.id.btnPlaySound);
         btnStop = (Button) findViewById(R.id.btnStopSound);
+        graph = (GraphView) findViewById(R.id.graph);
+        graph.getViewport().setXAxisBoundsManual(true);
+        graph.getViewport().setMinX(0);
+        graph.getViewport().setMaxX(100);
+
 
         btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                graph.removeAllSeries();
+//                playSound.resetGraph();
                 AudioManager m = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
                // Log.i("Phone volume is ",""+m.getStreamVolume(AudioManager.STREAM_MUSIC));
                // Log.i("Max volume is ",""+m.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
@@ -66,7 +75,8 @@ public class ListenActivity extends AppCompatActivity {
 
                     if(playSound == null) {
                         playSound = new PlaySound(ipAddress, port,txtSourceLoudness,
-                                getApplicationContext(),prgbPhoneVolume,txtPhoneVolume);
+                                getApplicationContext(),prgbPhoneVolume,txtPhoneVolume,
+                                graph);
                     }
 
                     thread = new Thread(playSound);

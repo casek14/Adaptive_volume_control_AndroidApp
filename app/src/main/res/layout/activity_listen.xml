@@ -69,6 +69,15 @@
             android:text="- dB"
             android:textSize="26sp" />
 
+
+        <com.jjoe64.graphview.GraphView
+            android:layout_width="match_parent"
+            android:layout_height="200dip"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:id="@+id/graph"/>
+
         <Button
             android:id="@+id/btnPlaySound"
             android:layout_width="match_parent"

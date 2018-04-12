@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.casek.babysitter.R;
+import com.jjoe64.graphview.GraphView;
 
 import org.w3c.dom.Text;
 
@@ -34,18 +35,21 @@ public class PlaySound implements Runnable {
     private boolean playing = true;
     private int sampleRate = 44100;
     private Context context;
+    private GraphView graph;
     TextView txtdB;
     private SoundManager soundManager;
 
     public PlaySound(String serverAddress, String serverPort,
                      TextView txtSourceLoudness, Context context, ProgressBar progressBar,
-                     TextView txtPhoneVolume) {
+                     TextView txtPhoneVolume,
+                     GraphView graph) {
         this.serverAddress = serverAddress;
         this.serverPort = Integer.parseInt(serverPort);
         txtdB = txtSourceLoudness;
         this.context = context;
         soundManager = new SoundManager(progressBar,txtPhoneVolume,
-                txtSourceLoudness,this.context);
+                txtSourceLoudness,this.context, graph);
+
     }
 
     @Override
@@ -129,5 +133,9 @@ public class PlaySound implements Runnable {
 
     public short bytesToShort(byte[] bytes) {
         return ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).getShort();
+    }
+
+    public void resetGraph(){
+        soundManager.setSequence(0d);
     }
 }

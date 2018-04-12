@@ -5,6 +5,10 @@ import android.media.AudioManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
+
 import org.w3c.dom.Text;
 
 /**
@@ -25,11 +29,17 @@ public class SoundManager {
     Context context;
     AudioManager audioManager;
     private int index;
+    private GraphView graph;
+    private LineGraphSeries<DataPoint> dataSeries;
+    private double sequence = 0d;
+    private int maxDataPoints = 1000;
+
 
     public SoundManager(ProgressBar prgBarPhoneVolume,
                         TextView txtPhoneVolume,
                         TextView txtLoudness,
-                        Context context) {
+                        Context context,
+                        GraphView graph) {
         this.prgBarPhoneVolume = prgBarPhoneVolume;
         this.txtPhoneVolume = txtPhoneVolume;
         this.txtLoudness = txtLoudness;
@@ -37,6 +47,9 @@ public class SoundManager {
         audioManager = (AudioManager) this.context.getSystemService(Context.AUDIO_SERVICE);
         volumeSet = new int[5];
         index = 0;
+        this.graph = graph;
+        dataSeries = new LineGraphSeries<>();
+        graph.addSeries(dataSeries);
     }
 
     /**
@@ -47,6 +60,9 @@ public class SoundManager {
         prgBarPhoneVolume.setProgress(phoneVolume);
         txtPhoneVolume.setText(phoneVolume+"%");
         txtLoudness.setText(sourceLoudness+" dB");
+        dataSeries.appendData(new DataPoint(sequence, (double) sourceLoudness),
+                true,maxDataPoints);
+        sequence +=1;
     }
 
     /**
@@ -138,5 +154,9 @@ public class SoundManager {
             index = 0;
         }
         return ma;
+    }
+
+    public void setSequence(double sequence) {
+        this.sequence = sequence;
     }
 }
