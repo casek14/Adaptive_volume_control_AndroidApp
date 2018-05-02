@@ -67,11 +67,11 @@ public class SoundManager {
 
     /**
      *
-     * @param votage
+     * @param voltage
      */
-    public void adjustPhoneVolume(double votage){
+    public void adjustPhoneVolume(double voltage){
 
-        int decibel = computeDecibel(votage);
+        int decibel = computeDecibel(voltage);
         int madb = computeMovingAverage(decibel);
         int phoneVolume = setPhoneVolume(madb);
         updateUI(phoneVolume,madb);

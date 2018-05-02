@@ -100,8 +100,8 @@ public class PlaySound implements Runnable {
                     int sizeWrite = audioTrack.write(audioBuffer, 0, sizeRead);
 
                     value = bytesToShort(audioBuffer);
-                    double db = 20*Math.log10((0.000002+((0.6325-0.00002)/32767.0)*Math.abs(value))/0.00002);
-                    soundManager.adjustPhoneVolume(db);
+                  //  double db = 20*Math.log10((0.000002+((0.6325-0.00002)/32767.0)*Math.abs(value))/0.00002);
+                    soundManager.adjustPhoneVolume(value);
                    // txtdB.setText((int) db+" dB");
                 }catch (Exception e){
                     Log.e("ERROR",e.getMessage());
