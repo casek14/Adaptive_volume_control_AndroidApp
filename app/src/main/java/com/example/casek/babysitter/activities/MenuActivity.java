@@ -58,8 +58,10 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // go to activity, which shows you how to run sound server
-                Intent serverSettingIntent = new Intent(MenuActivity.this, ServerSettingsActivity.class);
-                MenuActivity.this.startActivity(serverSettingIntent);
+               // Intent serverSettingIntent = new Intent(MenuActivity.this, ServerSettingsActivity.class);
+               // MenuActivity.this.startActivity(serverSettingIntent);
+                Intent server = new Intent(MenuActivity.this,OnBoardingActivity.class);
+                MenuActivity.this.startActivity(server);
             }
         });
 

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.casek.babysitter.activities.OnBoardingActivity">
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/linearLayoutOnBoard"
+        android:layout_alignParentStart="true">
+
+
+    </android.support.v4.view.ViewPager>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutOnBoard"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_vertical|center_horizontal|center"
+        android:orientation="horizontal">
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnSettingsBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/linearLayoutOnBoard"
+        android:background="@android:color/transparent"
+        android:text="back"
+        android:textColor="@color/colorPrimaryDark"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/btnSettingsNext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/btnSettingsBack"
+        android:layout_alignParentEnd="true"
+        android:background="@android:color/transparent"
+        android:textColor="@color/colorPrimaryDark"
+        android:text="next" />
+
+
+</RelativeLayout>
+

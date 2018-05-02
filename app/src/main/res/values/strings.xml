@@ -30,14 +30,14 @@
     <string name="image_description">App logo</string>
 
     <string name="txtMenu">MENU</string>
-    <string name="btnMenuListen" >Listen baby</string>
-    <string name="btnMenuClientSettings" >Client settings</string>
-    <string name="btnMenuServerSettings" >Server settings</string>
-    <string name="btnMenuAbout" >About App</string>
+    <string name="btnMenuListen">Listen baby</string>
+    <string name="btnMenuClientSettings">Client settings</string>
+    <string name="btnMenuServerSettings">Server settings</string>
+    <string name="btnMenuAbout">About App</string>
     <string name="btnLoadSettings">Load settings</string>
     <string name="btnSaveSettings">Save settings</string>
 
-    <string name="txtListenVolume" >Mobile volume:</string>
+    <string name="txtListenVolume">Mobile volume:</string>
     <string name="txtListenSourceVolume">Source loudness:</string>
 
 </resources>
